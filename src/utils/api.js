@@ -1,7 +1,7 @@
 // Backend API URL
 // In development: uses Vite proxy (relative path)
-// In production: uses absolute URL from env variable
-const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : 'http://localhost:5000/api')
+// In production: uses Render backend URL
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : 'https://backendconnect-23pr.onrender.com/api')
 
 // Store token in localStorage
 export const setAuthToken = (accessToken, refreshToken, email, userId) => {

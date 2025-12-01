@@ -393,3 +393,61 @@ export const dashboardAPI = {
     }
   },
 }
+
+// Modules API calls
+export const modulesAPI = {
+  getModules: async () => {
+    try {
+      const response = await fetchWithErrorHandling(`${API_URL}/modules`, {
+        method: 'GET',
+        headers: getHeaders(true),
+      })
+      return response.json()
+    } catch (error) {
+      console.error('Get modules error:', error)
+      throw error
+    }
+  },
+
+  uploadModule: async (moduleData) => {
+    try {
+      const response = await fetchWithErrorHandling(`${API_URL}/modules`, {
+        method: 'POST',
+        headers: getHeaders(true),
+        body: JSON.stringify(moduleData),
+      })
+      return response.json()
+    } catch (error) {
+      console.error('Upload module error:', error)
+      throw error
+    }
+  },
+
+  updateModule: async (moduleId, moduleData) => {
+    try {
+      const response = await fetchWithErrorHandling(`${API_URL}/modules/${moduleId}`, {
+        method: 'PUT',
+        headers: getHeaders(true),
+        body: JSON.stringify(moduleData),
+      })
+      return response.json()
+    } catch (error) {
+      console.error('Update module error:', error)
+      throw error
+    }
+  },
+
+  deleteModule: async (moduleId) => {
+    try {
+      const response = await fetchWithErrorHandling(`${API_URL}/modules/${moduleId}`, {
+        method: 'DELETE',
+        headers: getHeaders(true),
+        body: JSON.stringify({}),
+      })
+      return response.json()
+    } catch (error) {
+      console.error('Delete module error:', error)
+      throw error
+    }
+  },
+}

@@ -4,6 +4,7 @@ import Users from './pages/Users'
 import Settings from './pages/Settings'
 import Jobs from './pages/Jobs'
 import JobsAnalytics from './pages/JobsAnalytics'
+import Modules from './pages/Modules'
 
 export default function DashboardContent({ activePage }) {
   switch (activePage) {
@@ -11,6 +12,8 @@ export default function DashboardContent({ activePage }) {
       return <Analytics />
     case 'jobs-analytics':
       return <JobsAnalytics />
+    case 'modules':
+      return <Modules />
     case 'users':
       return <Users />
     case 'jobs':

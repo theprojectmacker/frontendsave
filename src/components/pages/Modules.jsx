@@ -170,6 +170,13 @@ export default function Modules() {
             <line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
           {error}
+          <button
+            className="close-error-button"
+            onClick={() => setError('')}
+            style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#fca5a5', cursor: 'pointer', fontSize: '16px' }}
+          >
+            ✕
+          </button>
         </div>
       )}
 
@@ -178,15 +185,24 @@ export default function Modules() {
         <div className="upload-form">
           <div className="form-group">
             <label htmlFor="titleInput" className="form-label">Module Title *</label>
-            <input
-              id="titleInput"
-              type="text"
-              value={uploadTitle}
-              onChange={(e) => setUploadTitle(e.target.value)}
-              placeholder="Enter module title"
-              className="form-input"
-              disabled={uploadProgress}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                id="titleInput"
+                type="text"
+                value={uploadTitle}
+                onChange={(e) => setUploadTitle(e.target.value)}
+                placeholder="Enter module title"
+                className="form-input"
+                disabled={uploadProgress}
+              />
+              {uploadProgress && (
+                <div className="input-loader">
+                  <span className="loader-dot"></span>
+                  <span className="loader-dot" style={{ animationDelay: '0.2s' }}></span>
+                  <span className="loader-dot" style={{ animationDelay: '0.4s' }}></span>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="form-group">
@@ -686,6 +702,36 @@ export default function Modules() {
           background: rgba(239, 68, 68, 0.2);
           border-color: #ef4444;
           color: #fca5a5;
+        }
+
+        .input-loader {
+          position: absolute;
+          right: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          pointer-events: none;
+        }
+
+        .loader-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #667eea;
+          animation: bounce 1.4s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+          0%, 80%, 100% {
+            transform: scaleY(1);
+            opacity: 0.6;
+          }
+          40% {
+            transform: scaleY(1.2);
+            opacity: 1;
+          }
         }
 
         @media (max-width: 768px) {

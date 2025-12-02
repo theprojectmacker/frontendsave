@@ -7,6 +7,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [showErrorModal, setShowErrorModal] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -18,9 +19,11 @@ export default function LoginPage() {
 
       if (!result.success) {
         setError(result.error || 'Invalid admin credentials')
+        setShowErrorModal(true)
       }
     } catch (err) {
       setError('Connection error. Please try again.')
+      setShowErrorModal(true)
       console.error('Admin login error:', err)
     } finally {
       setIsLoading(false)
@@ -36,13 +39,20 @@ export default function LoginPage() {
 
       if (!result.success) {
         setError(result.error || 'Admin account not available.')
+        setShowErrorModal(true)
       }
     } catch (err) {
       setError('Connection error. Please try again.')
+      setShowErrorModal(true)
       console.error('Admin login error:', err)
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const closeErrorModal = () => {
+    setShowErrorModal(false)
+    setError('')
   }
 
   return (
@@ -147,8 +157,6 @@ export default function LoginPage() {
                 <div className="input-icon">🔒</div>
               </div>
 
-              {error && <div className="error-message">{error}</div>}
-
               <button
                 type="submit"
                 className="login-button"
@@ -202,6 +210,24 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+
+      {showErrorModal && (
+        <div className="modal-overlay">
+          <div className="error-modal">
+            <div className="modal-header">
+              <div className="error-icon">⚠️</div>
+              <h3>Login Failed</h3>
+            </div>
+            <p className="error-text">{error}</p>
+            <button
+              onClick={closeErrorModal}
+              className="modal-button"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      )}
 
       <style>{`
         .login-container {
@@ -786,6 +812,103 @@ export default function LoginPage() {
           .gradient-orb {
             filter: blur(60px);
           }
+        }
+
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        .error-modal {
+          background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(239, 68, 68, 0.3);
+          border-radius: 16px;
+          padding: 40px 32px;
+          max-width: 420px;
+          width: 90%;
+          text-align: center;
+          animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+          from {
+            transform: translateY(20px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+
+        .modal-header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 16px;
+          margin-bottom: 20px;
+        }
+
+        .error-icon {
+          font-size: 48px;
+        }
+
+        .error-modal h3 {
+          font-size: 22px;
+          font-weight: 800;
+          color: white;
+          margin: 0;
+          letter-spacing: -0.5px;
+        }
+
+        .error-text {
+          font-size: 14px;
+          color: #cbd5e0;
+          margin: 0 0 24px 0;
+          line-height: 1.5;
+        }
+
+        .modal-button {
+          width: 100%;
+          padding: 14px 20px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border: none;
+          border-radius: 12px;
+          font-size: 15px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .modal-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .modal-button:active {
+          transform: translateY(0);
         }
       `}</style>
     </div>

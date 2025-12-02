@@ -8,6 +8,7 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showErrorModal, setShowErrorModal] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -146,7 +147,7 @@ export default function LoginPage() {
                 </label>
                 <input
                   id="password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
@@ -155,6 +156,15 @@ export default function LoginPage() {
                   autoComplete="current-password"
                 />
                 <div className="input-icon">🔒</div>
+                <button
+                  type="button"
+                  className="toggle-password-btn"
+                  onClick={() => setShowPassword(!showPassword)}
+                  disabled={isLoading}
+                  title={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? '👁️' : '👁️‍🗨️'}
+                </button>
               </div>
 
               <button
@@ -579,6 +589,32 @@ export default function LoginPage() {
           top: 38px;
           font-size: 16px;
           pointer-events: none;
+        }
+
+        .toggle-password-btn {
+          position: absolute;
+          right: 14px;
+          top: 38px;
+          background: transparent;
+          border: none;
+          font-size: 18px;
+          cursor: pointer;
+          padding: 4px 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+          color: #94a3b8;
+        }
+
+        .toggle-password-btn:hover:not(:disabled) {
+          color: #e2e8f0;
+          transform: scale(1.1);
+        }
+
+        .toggle-password-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
         }
 
         .error-message {
